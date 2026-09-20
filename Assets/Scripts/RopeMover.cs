@@ -2,27 +2,23 @@ using UnityEngine;
 
 public class RopeMover : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
     public float speed = 3f;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        float direction = 0f;
+
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-            Debug.Log("A pressed");
-        transform.position += Vector3.left * speed * Time.deltaTime;
+            direction -= 1f;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
+            direction += 1f;
         }
+
+        transform.position +=
+            Vector3.right * direction * speed * Time.deltaTime;
     }
 }

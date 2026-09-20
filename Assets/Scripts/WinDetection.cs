@@ -2,26 +2,40 @@ using UnityEngine;
 
 public class WinDetection : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public enum PlayerSide
     {
-        
+        Left,
+        Right
     }
+    // field
+    [SerializeField] private PlayerSide winningSide;
+    [SerializeField] private MapProgress mapProgress;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
-    }
-
-    public int winningPlayer;
-
-    void OnTriggerEnter2D (Collider2D other)
-    {
-        if (other.CompareTag("Rope"))
+        // Only the object carrying RopeMover can win a round.
+        if (other.GetComponent<RopeMover>() == null)
         {
-            Debug.Log("Player " + winningPlayer + " wins the round");
+            return;
         }
-    }  
 
+        if (mapProgress == null)
+        {
+            Debug.LogError(
+                "Assign MapManager to this win zone.",
+                this
+            );
+
+            return;
+        }
+
+        if (winningSide == PlayerSide.Left)
+        {
+            mapProgress.LeftWinsRound();
+        }
+        else
+        {
+            mapProgress.RightWinsRound();
+        }
+    }
 }
